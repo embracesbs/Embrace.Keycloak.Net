@@ -4,6 +4,7 @@
     <TargetFramework>net6.0</TargetFramework>
     <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
     <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
+    <PackageId>Embrace.Keycloak.Net</PackageId>
 	<PackageProjectUrl>https://github.com/embracesbs/Embrace.Keycloak.Net</PackageProjectUrl>
 	<RepositoryUrl>https://github.com/embracesbs/Embrace.Keycloak.Net</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
@@ -17,7 +18,7 @@
     <IncludeSymbols>true</IncludeSymbols>
     <SymbolPackageFormat>snupkg</SymbolPackageFormat>
     <Version>1.0.21</Version>
-    <RootNamespace>Keycloak.Net.Core</RootNamespace>
+    <RootNamespace>Keycloak.Net</RootNamespace>
   </PropertyGroup>
 
   <ItemGroup>

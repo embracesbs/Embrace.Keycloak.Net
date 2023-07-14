@@ -5,6 +5,9 @@ using Keycloak.Net.Common.Extensions;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 using System;
+using System.Net;
+using System.Threading.Tasks;
+using Keycloak.Net.Models;
 
 namespace Keycloak.Net
 {
@@ -57,6 +60,32 @@ namespace Keycloak.Net
             .AppendPathSegment(_options.Prefix)
             .ConfigureRequest(settings => settings.JsonSerializer = _serializer)
             .WithAuthentication(_getToken, _url, authenticationRealm, _userName, _password, _clientSecret, _options);
+        
+        private async Task<Response<T>> HandleErrorResponse<T>(FlurlHttpException ex)
+        {
+            if (ex.Call.Response == null)
+            {
+                return new Response<T>(HttpStatusCode.InternalServerError, ex.Call.Exception.Message);
+            }
+
+            var kcStatus = ex.Call.Response.StatusCode;
+            ex.Call.Response.Headers.TryGetFirst("Content-Type", out string contentType);
+            KeycloakErrorResponse kcError;
+
+            if (contentType.Contains("application/json"))
+            {
+                kcError = await ex.GetResponseJsonAsync<KeycloakErrorResponse>();
+            }
+            else
+            {
+                kcError = new KeycloakErrorResponse()
+                {
+                    ErrorCode = await ex.GetResponseStringAsync()
+                };
+            }
+
+            return new Response<T>(kcStatus, $"{kcStatus} | {kcError.ErrorDetails}");
+        }
     }
 
     public class KeycloakOptions
