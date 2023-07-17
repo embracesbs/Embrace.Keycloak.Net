@@ -24,6 +24,7 @@ namespace Keycloak.Net
         private readonly string _password;
         private readonly string _clientSecret;
         private readonly Func<string> _getToken;
+        private readonly ForwardedHttpHeaders _forwardedHeaders;
         private readonly KeycloakOptions _options;
 
         private KeycloakClient(string url, KeycloakOptions options)
@@ -50,16 +51,31 @@ namespace Keycloak.Net
         {
             _getToken = getToken;
         }
+        
+        public KeycloakClient(string url, Func<string> getToken, ForwardedHttpHeaders forwardedHeaders, KeycloakOptions options = null)
+            : this(url, options)
+        {
+            _getToken = getToken;
+            _forwardedHeaders = forwardedHeaders;
+        }
 
         public void SetSerializer(ISerializer serializer)
         {
             _serializer = serializer ?? throw new ArgumentNullException(nameof(serializer));
         }
 
-        private IFlurlRequest GetBaseUrl(string authenticationRealm) => new Url(_url)
-            .AppendPathSegment(_options.Prefix)
-            .ConfigureRequest(settings => settings.JsonSerializer = _serializer)
-            .WithAuthentication(_getToken, _url, authenticationRealm, _userName, _password, _clientSecret, _options);
+        private IFlurlRequest GetBaseUrl(string authenticationRealm)
+        {
+            var request = new Url(_url)
+                .AppendPathSegment(_options.Prefix)
+                .ConfigureRequest(settings => settings.JsonSerializer = _serializer)
+                .WithAuthentication(_getToken, _url, authenticationRealm, _userName, _password, _clientSecret, _options);
+
+            if (_forwardedHeaders != null)
+                request.WithForwardedHttpHeaders(_forwardedHeaders);
+
+            return request;
+        }
         
         private async Task<Response<T>> HandleErrorResponse<T>(FlurlHttpException ex)
         {
