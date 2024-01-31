@@ -340,7 +340,7 @@ namespace Keycloak.Net
                     .PostJsonAsync(localizationTexts, cancellationToken)
                     .ConfigureAwait(false);
                 
-                return new Response<bool>(response.StatusCode, response.ResponseMessage.IsSuccessStatusCode);
+                return Response<bool>.Success(response.StatusCode, response.ResponseMessage.IsSuccessStatusCode);
             }
             catch (FlurlHttpException ex)
             {
@@ -357,7 +357,7 @@ namespace Keycloak.Net
                     .DeleteAsync(cancellationToken)
                     .ConfigureAwait(false);
                 
-                return new Response<bool>(response.StatusCode, response.ResponseMessage.IsSuccessStatusCode);
+                return Response<bool>.Success(response.StatusCode, response.ResponseMessage.IsSuccessStatusCode);
             }
             catch (FlurlHttpException ex)
             {
@@ -374,7 +374,7 @@ namespace Keycloak.Net
                     .DeleteAsync(cancellationToken)
                     .ConfigureAwait(false);
                 
-                return new Response<bool>(response.StatusCode, response.ResponseMessage.IsSuccessStatusCode);
+                return Response<bool>.Success(response.StatusCode, response.ResponseMessage.IsSuccessStatusCode);
             }
             catch (FlurlHttpException ex)
             {
@@ -392,7 +392,7 @@ namespace Keycloak.Net
                     .GetJsonAsync<IDictionary<string, string>>(cancellationToken)
                     .ConfigureAwait(false);
                 
-                return new Response<IDictionary<string, string>>(HttpStatusCode.OK, localizationTexts);
+                return Response<IDictionary<string, string>>.Success(HttpStatusCode.OK, localizationTexts);
             }
             catch (FlurlHttpException ex)
             {
@@ -409,7 +409,7 @@ namespace Keycloak.Net
                     .GetStringAsync(cancellationToken)
                     .ConfigureAwait(false);
                 
-                return new Response<string>(HttpStatusCode.OK, localizationText);
+                return Response<string>.Success(HttpStatusCode.OK, localizationText);
             }
             catch (FlurlHttpException ex)
             {
@@ -426,7 +426,7 @@ namespace Keycloak.Net
                     .GetJsonAsync<IEnumerable<string>>(cancellationToken)
                     .ConfigureAwait(false);
                 
-                return new Response<IEnumerable<string>>(HttpStatusCode.OK, locales);
+                return Response<IEnumerable<string>>.Success(HttpStatusCode.OK, locales);
             }
             catch (FlurlHttpException ex)
             {
