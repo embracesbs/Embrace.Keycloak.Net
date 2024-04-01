@@ -10,15 +10,13 @@ namespace Keycloak.Net;
 
 public partial class KeycloakClient
 {
-    public async Task<Response<IEnumerable<User>>> GetUsersWithRole(string realm, IEnumerable<string> roleIds)
+    public async Task<Response<IEnumerable<User>>> GetUsersInRoles(string realm, IEnumerable<string> roleIds)
     {
         try
         {
              var users = await GetBaseUrl(realm)
                  .AppendPathSegment($"/realms/{realm}/spi-users")
                  .SetQueryParams(new { roleIds = roleIds })
-                 .WithTimeout(600)
-                 .WithHeader(Constants.HttpConstants.ContentType, Constants.HttpConstants.FormUrlEncoded)
                  .GetJsonAsync<IEnumerable<User>>()
                  .ConfigureAwait(false);
             
