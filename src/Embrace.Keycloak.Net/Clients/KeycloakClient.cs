@@ -41,7 +41,7 @@ namespace Keycloak.Net
         }
 
         public async Task<IEnumerable<Client>> GetClientsAsync(string realm, int? first = null, int? max = null, string clientId = null, 
-            bool? search = null, string q = null, bool? viewableOnly = null, CancellationToken cancellationToken = default)
+            bool? search = true, string q = null, bool? viewableOnly = null, CancellationToken cancellationToken = default)
         {
             var queryParams = new Dictionary<string, object>
             {
