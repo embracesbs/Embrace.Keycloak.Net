@@ -12,7 +12,15 @@ namespace Keycloak.Net.Models.IdentityProviders
         public string ClientId { get; set; }
         [JsonProperty("disableUserInfo")]
         public string DisableUserInfo { get; set; }
-        [JsonProperty("useJwksUrl")]
+        [JsonProperty("jwksUrl")]
         public string UseJwksUrl { get; set; }
+        [JsonProperty("authorizationUrl")]
+        public string AuthorizationUrl { get; set; }
+        [JsonProperty("tokenUrl")]
+        public string TokenUrl { get; set; }
+        [JsonProperty("logoutUrl")]
+        public string LogoutUrl { get; set; }
+        [JsonProperty("issuer")]
+        public string Issuer { get; set; }
     }
 }

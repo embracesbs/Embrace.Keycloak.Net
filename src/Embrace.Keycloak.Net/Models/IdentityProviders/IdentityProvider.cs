@@ -6,6 +6,8 @@ namespace Keycloak.Net.Models.IdentityProviders
     {
         [JsonProperty("alias")]
         public string Alias { get; set; }
+        [JsonProperty("displayName")]
+        public string DisplayName { get; set; }
         [JsonProperty("internalId")]
         public string InternalId { get; set; }
         [JsonProperty("providerId")]
