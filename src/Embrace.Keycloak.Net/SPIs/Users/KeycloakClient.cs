@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.Net;
 using System.Threading.Tasks;
@@ -25,6 +24,25 @@ public partial class KeycloakClient
         catch (FlurlHttpException ex)
         {
             return await HandleErrorResponse<IEnumerable<User>>(ex);
+        }
+    }
+    
+    public async Task<Response<string>> GetUserLastLoginTimestamp(string realm, string userId)
+    {
+        try
+        {
+            var response = await GetBaseUrl(realm)
+                .AppendPathSegment($"/realms/{realm}/spi-users/last-login")
+                .SetQueryParams(new { userId = userId })
+                .GetAsync()
+                .ReceiveString()
+                .ConfigureAwait(false);
+            
+            return Response<string>.Success(HttpStatusCode.OK, response);
+        }
+        catch (FlurlHttpException ex)
+        {
+            return await HandleErrorResponse<string>(ex);
         }
     }
     
