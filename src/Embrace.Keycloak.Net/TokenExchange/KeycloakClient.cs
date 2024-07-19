@@ -13,7 +13,7 @@ namespace Keycloak.Net
         public async Task<Response<ExternalIdpToken>> ExchangeForExternalTokenAsync(
             string realm,
             string keycloakToken,
-            string idpName,
+            string idpAlias,
             string clientId = null,
             string clientSecret = null)
         {
@@ -26,7 +26,7 @@ namespace Keycloak.Net
                     {
                         new(AuthKeywords.GrantType, AuthKeywords.TokenExchangeGrant),
                         new(AuthKeywords.RequestedTokenType, AuthKeywords.AccessTokenTokenType),
-                        new(AuthKeywords.RequestedIssuer, idpName),
+                        new(AuthKeywords.RequestedIssuer, idpAlias),
                         new(AuthKeywords.SubjectToken, keycloakToken),
                         new(AuthKeywords.ClientId, clientId),
                         new(AuthKeywords.ClientSecret, clientSecret)
