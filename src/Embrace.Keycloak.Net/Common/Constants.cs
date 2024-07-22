@@ -23,5 +23,7 @@ public static class Constants
         public const string RequestedIssuer = "requested_issuer";
         public const string SubjectIssuer ="subject_issuer";
         public const string SubjectToken = "subject_token";
+        public const string AccessToken = "access_token";
+        public const string IdpAlias = "idp_alias";
     }
 }
