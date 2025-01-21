@@ -1,9 +1,9 @@
 variables:
-  Version.MajorMinor: 23.0
-  Version.Revision: $[counter(variables['Version.MajorMinor'], 0)]
-  Version.SemverNumber: $(Version.MajorMinor).$(Version.Revision)  
+  majorVersion: 25
+  minorVersion: $[counter(variables['majorVersion'], 0)]
+  version: $[format('{0}.{1}', variables['majorVersion'], variables['minorVersion'])]
 
-name: $(Version.SemverNumber) # this sets the build_buildnumber variable
+name: $(version)
 
 trigger:
 - main
@@ -15,8 +15,8 @@ stages:
 - stage: nettasks
   jobs:
   - job: test
+    condition: eq(1,2)  # This condition will skip this job completely
     steps:
-
       - task: DotNetCoreCLI@2
         inputs:
           command: 'restore'
@@ -30,7 +30,7 @@ stages:
           projects: 'test/**/*.csproj'
 
   - job: build
-    dependsOn: test
+    # dependsOn: test
     condition: and(succeeded(), eq(variables['Build.Reason'], 'PullRequest')) # only for pr's
     steps:
 
@@ -40,7 +40,7 @@ stages:
           projects: 'src/**/*.csproj'
 
   - job: deploy
-    dependsOn: test
+    # dependsOn: test
     condition: and(succeeded(), not(eq(variables['Build.Reason'], 'PullRequest'))) # dont't run for pr's
     steps:
 
@@ -53,7 +53,8 @@ stages:
         inputs:
           command: 'pack'
           packagesToPack: 'src/**/*.csproj'
-          versioningScheme: 'byBuildNumber'          
+          versioningScheme: 'byEnvVar'
+          versionEnvVar: version       
 
       - task: DotNetCoreCLI@2
         inputs:
