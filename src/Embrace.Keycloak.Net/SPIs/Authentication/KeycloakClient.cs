@@ -32,6 +32,30 @@ public partial class KeycloakClient
         }
     }
     
+    public async Task<Response<bool>> InviteMember(string realm, string email, string redirectUri, bool isExternalManaged = false, string suiteName = null)
+    {
+        try
+        {
+            await GetBaseUrl(realm)
+                .AppendPathSegment($"/realms/{realm}/spi-authentication/invite-member")
+                .WithHeader(HttpConstants.ContentType, HttpConstants.FormUrlEncoded)
+                .PostUrlEncodedAsync(new List<KeyValuePair<string, string>>
+                {
+                    new("email", email),
+                    new("redirect_uri", redirectUri),
+                    new("external_managed", isExternalManaged.ToString()),
+                    new("suite_name", suiteName)
+                })
+                .ConfigureAwait(false);
+
+            return Response<bool>.Success(HttpStatusCode.OK, true);
+        }
+        catch (FlurlHttpException ex)
+        {
+            return await HandleErrorResponse<bool>(ex);
+        }
+    }
+    
     public async Task<Response<MsGraphToken>> ExchangeForMsGraphTokenAsync(
         string realm,
         string accessToken,
