@@ -62,7 +62,7 @@ public partial class KeycloakClient
         string realm,
         string accessToken,
         string idpAlias,
-        MsGraphExchangeTokenType type)
+        MicrosoftExchangeTokenType type)
     {
         try
         {

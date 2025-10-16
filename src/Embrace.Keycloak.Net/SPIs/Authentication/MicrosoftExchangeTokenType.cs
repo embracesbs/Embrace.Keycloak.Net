@@ -1,6 +1,6 @@
 ﻿namespace Keycloak.Net.SPIs.Authentication;
 
-public enum MsGraphExchangeTokenType
+public enum MicrosoftExchangeTokenType
 {
     GRAPH,
     IMPERSONATION
