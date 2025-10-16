@@ -58,7 +58,7 @@ public partial class KeycloakClient
         }
     }
 
-    public async Task<Response<MsGraphToken>> ExchangeForMicrosoftTokenAsync(
+    public async Task<Response<MicrosoftToken>> ExchangeForMicrosoftTokenAsync(
         string realm,
         string accessToken,
         string idpAlias,
@@ -75,14 +75,14 @@ public partial class KeycloakClient
                     new(AuthKeywords.AccessToken, accessToken),
                     new(AuthKeywords.TokenType, Enum.GetName(type))
                 })
-                .ReceiveJson<MsGraphToken>()
+                .ReceiveJson<MicrosoftToken>()
                 .ConfigureAwait(false);
 
-            return Response<MsGraphToken>.Success(HttpStatusCode.OK, response);
+            return Response<MicrosoftToken>.Success(HttpStatusCode.OK, response);
         }
         catch (FlurlHttpException ex)
         {
-            return await HandleErrorResponse<MsGraphToken>(ex);
+            return await HandleErrorResponse<MicrosoftToken>(ex);
         }
     }
 }

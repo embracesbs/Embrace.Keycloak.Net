@@ -2,7 +2,7 @@
 
 namespace Keycloak.Net.Models.TokenExchange;
 
-public class MsGraphToken
+public class MicrosoftToken
 {
     [JsonProperty("token_type")]
     public string TokenType { get; init; }
