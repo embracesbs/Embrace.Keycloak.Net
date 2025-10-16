@@ -7,7 +7,7 @@ public static class Constants
         public const string ContentType = "Content-Type";
         public const string FormUrlEncoded = "application/x-www-form-urlencoded";
     }
-    
+
     public static class AuthKeywords
     {
         public const string ClientId = "client_id";
@@ -21,9 +21,10 @@ public static class Constants
         public const string RequestedTokenType = "requested_token_type";
         public const string AccessTokenTokenType = "urn:ietf:params:oauth:token-type:access_token";
         public const string RequestedIssuer = "requested_issuer";
-        public const string SubjectIssuer ="subject_issuer";
+        public const string SubjectIssuer = "subject_issuer";
         public const string SubjectToken = "subject_token";
         public const string AccessToken = "access_token";
         public const string IdpAlias = "idp_alias";
+        public const string TokenType = "token_type";
     }
 }

@@ -1,9 +1,11 @@
-using System.Collections.Generic;
-using System.Net;
-using System.Threading.Tasks;
 using Flurl.Http;
 using Keycloak.Net.Models;
 using Keycloak.Net.Models.TokenExchange;
+using Keycloak.Net.SPIs.Authentication;
+using System;
+using System.Collections.Generic;
+using System.Net;
+using System.Threading.Tasks;
 using static Keycloak.Net.Constants;
 
 namespace Keycloak.Net;
@@ -31,7 +33,7 @@ public partial class KeycloakClient
             return await HandleErrorResponse<bool>(ex);
         }
     }
-    
+
     public async Task<Response<bool>> InviteMember(string realm, string email, string redirectUri, bool isExternalManaged = false, string suiteName = null)
     {
         try
@@ -55,11 +57,12 @@ public partial class KeycloakClient
             return await HandleErrorResponse<bool>(ex);
         }
     }
-    
-    public async Task<Response<MsGraphToken>> ExchangeForMsGraphTokenAsync(
+
+    public async Task<Response<MsGraphToken>> ExchangeForMicrosoftTokenAsync(
         string realm,
         string accessToken,
-        string idpAlias)
+        string idpAlias,
+        MsGraphExchangeTokenType type)
     {
         try
         {
@@ -69,7 +72,8 @@ public partial class KeycloakClient
                 .PostUrlEncodedAsync(new List<KeyValuePair<string, string>>
                 {
                     new(AuthKeywords.IdpAlias, idpAlias),
-                    new(AuthKeywords.AccessToken, accessToken)
+                    new(AuthKeywords.AccessToken, accessToken),
+                    new(AuthKeywords.TokenType, Enum.GetName(type))
                 })
                 .ReceiveJson<MsGraphToken>()
                 .ConfigureAwait(false);
