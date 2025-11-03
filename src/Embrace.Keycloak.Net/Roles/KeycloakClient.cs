@@ -3,7 +3,6 @@ using Keycloak.Net.Models.Common;
 using Keycloak.Net.Models.Groups;
 using Keycloak.Net.Models.Roles;
 using Keycloak.Net.Models.Users;
-using System;
 using System.Collections.Generic;
 using System.Net.Http;
 using System.Threading;
@@ -95,13 +94,11 @@ namespace Keycloak.Net
             .GetJsonAsync<IEnumerable<Role>>(cancellationToken: cancellationToken)
             .ConfigureAwait(false);
 
-        [Obsolete("Not working yet")]
-        public async Task<IEnumerable<Group>> GetGroupsWithRoleNameAsync(string realm, string clientId, string roleName, int? first = null, bool? full = null, int? max = null, CancellationToken cancellationToken = default)
+        public async Task<IEnumerable<Group>> GetGroupsWithRoleNameAsync(string realm, string clientId, string roleName, int? first = null, int? max = null, CancellationToken cancellationToken = default)
         {
             var queryParams = new Dictionary<string, object>
             {
                 [nameof(first)] = first,
-                [nameof(full)] = full,
                 [nameof(max)] = max
             };
 
@@ -220,13 +217,11 @@ namespace Keycloak.Net
             .GetJsonAsync<IEnumerable<Role>>(cancellationToken: cancellationToken)
             .ConfigureAwait(false);
 
-        [Obsolete("Not working yet")]
-        public async Task<IEnumerable<Group>> GetGroupsWithRoleNameAsync(string realm, string roleName, int? first = null, bool? full = null, int? max = null, CancellationToken cancellationToken = default)
+        public async Task<IEnumerable<Group>> GetGroupsWithRoleNameAsync(string realm, string roleName, int? first = null, int? max = null, CancellationToken cancellationToken = default)
         {
             var queryParams = new Dictionary<string, object>
             {
                 [nameof(first)] = first,
-                [nameof(full)] = full,
                 [nameof(max)] = max
             };
 
